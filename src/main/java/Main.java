@@ -1,23 +1,29 @@
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 public class Main {
 
-    public static void main(String[] args) {
+	private final static Logger logger = LogManager.getLogger(Main.class.getName());
 
-        ApiContextInitializer.init();
+	public static void main(String[] args) {
 
-        TelegramBotsApi botsApi = new TelegramBotsApi();
+		logger.info("Iniciando bot...");
 
-        try {
-            botsApi.registerBot(new RaidPlanner());
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+		ApiContextInitializer.init();
 
-        System.out.println("Bot iniciado correctamente");
+		TelegramBotsApi botsApi = new TelegramBotsApi();
 
-    }
+		try {
+			botsApi.registerBot(new RaidPlanner());
+		} catch (TelegramApiException e) {
+			logger.error(e.getMessage(), e);
+		}
+
+		logger.info("Bot iniciado correctamente");
+
+	}
 
 }
